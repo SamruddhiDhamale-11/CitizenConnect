@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Citizen Connect — Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+
+  <!-- ===== TOP NAVBAR ===== -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-emblem">🏛️</div>
+      <div class="navbar-brand">
+        <span class="navbar-title">Citizen Connect</span>
+        <span class="navbar-sub">Smart Governance Portal</span>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <div class="navbar-user">
+        <div class="user-avatar" id="userAvatar">R</div>
+        <div class="user-info">
+          <span class="user-name" id="userName">Rahul Sharma</span>
+          <span class="user-role">Citizen · Ward 12</span>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <!-- ===== LAYOUT ===== -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+  <div class="layout">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" id="sidebar">
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" onclick="showPanel('overview', this)">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Overview</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPanel('complaint', this)">
+          <span class="nav-icon">📋</span>
+          <span class="nav-label">Raise Complaint</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPanel('suggestion', this)">
+          <span class="nav-icon">💡</span>
+          <span class="nav-label">Give Suggestion</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPanel('mycomplaints', this)">
+          <span class="nav-icon">📂</span>
+          <span class="nav-label">My Complaints</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPanel('mysuggestions', this)">
+          <span class="nav-icon">📝</span>
+          <span class="nav-label">My Suggestions</span>
+        </a>
+        <div class="nav-divider"></div>
+        <a href="#" class="nav-item" onclick="showPanel('profile', this)">
+          <span class="nav-icon">👤</span>
+          <span class="nav-label">My Profile</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content">
+
+      <!-- ============================================================
+           PANEL: OVERVIEW
+           ============================================================ -->
+      <div class="panel active" id="panel-overview">
+
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Welcome back, <span id="greetName">Rahul</span> 👋</h1>
+            <p class="page-subtitle">Here's a summary of your civic activity</p>
+          </div>
+          <div class="page-date" id="pageDate"></div>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#FEF2F2; color:#C21807;">📋</div>
+            <div class="stat-body">
+              <div class="stat-number" id="statComplaints">3</div>
+              <div class="stat-label">Complaints Filed</div>
+            </div>
+            <div class="stat-badge pending">2 Pending</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#F0FDF4; color:#16a34a;">✅</div>
+            <div class="stat-body">
+              <div class="stat-number" id="statResolved">1</div>
+              <div class="stat-label">Resolved</div>
+            </div>
+            <div class="stat-badge resolved">Up to date</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#EFF6FF; color:#2563EB;">💡</div>
+            <div class="stat-body">
+              <div class="stat-number" id="statSuggestions">2</div>
+              <div class="stat-label">Suggestions Sent</div>
+            </div>
+            <div class="stat-badge info">Under Review</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#FFFBEB; color:#D97706;">⭐</div>
+            <div class="stat-body">
+              <div class="stat-number">85</div>
+              <div class="stat-label">Civic Score</div>
+            </div>
+            <div class="stat-badge gold">Active Citizen</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="section-title">Quick Actions</div>
+        <div class="quick-actions">
+          <button class="quick-btn" onclick="showPanel('complaint', document.querySelector('[onclick*=complaint]'))">
+            <span class="quick-icon">📋</span>
+            <span>Raise a Complaint</span>
+          </button>
+          <button class="quick-btn" onclick="showPanel('suggestion', document.querySelector('[onclick*=suggestion]'))">
+            <span class="quick-icon">💡</span>
+            <span>Give a Suggestion</span>
+          </button>
+          <button class="quick-btn" onclick="showPanel('mycomplaints', document.querySelector('[onclick*=mycomplaints]'))">
+            <span class="quick-icon">📂</span>
+            <span>Track Complaints</span>
+          </button>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="section-title" style="margin-top:28px;">Recent Activity</div>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-dot complaint"></div>
+            <div class="activity-body">
+              <div class="activity-title">Complaint: Broken streetlight on Main Road</div>
+              <div class="activity-meta">Filed on 28 Apr 2026 · <span class="badge-status pending-text">Pending</span></div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot suggestion"></div>
+            <div class="activity-body">
+              <div class="activity-title">Suggestion: Install CCTV near Ward Park</div>
+              <div class="activity-meta">Submitted on 25 Apr 2026 · <span class="badge-status review-text">Under Review</span></div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot resolved"></div>
+            <div class="activity-body">
+              <div class="activity-title">Complaint: Garbage not collected for 3 days</div>
+              <div class="activity-meta">Resolved on 20 Apr 2026 · <span class="badge-status resolved-text">Resolved</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: RAISE COMPLAINT
+           ============================================================ -->
+      <div class="panel" id="panel-complaint">
+
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Raise a Complaint</h1>
+            <p class="page-subtitle">Report civic issues in your ward for official action</p>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-card-header">
+            <span class="form-card-icon">📋</span>
+            <div>
+              <div class="form-card-title">Complaint Details</div>
+              <div class="form-card-sub">All fields marked * are required</div>
+            </div>
+          </div>
+
+          <form id="complaintForm" novalidate onsubmit="submitComplaint(event)">
+
+            <div class="field-row-two">
+              <div class="field-group">
+                <label><strong>Complaint Category</strong> <span class="req">*</span></label>
+                <select id="complaintCategory" required>
+                  <option value="">— Select Category —</option>
+                  <option value="roads">Roads &amp; Potholes</option>
+                  <option value="water">Water Supply</option>
+                  <option value="electricity">Electricity / Streetlights</option>
+                  <option value="garbage">Garbage &amp; Sanitation</option>
+                  <option value="drainage">Drainage &amp; Sewage</option>
+                  <option value="parks">Parks &amp; Public Spaces</option>
+                  <option value="noise">Noise Pollution</option>
+                  <option value="encroachment">Encroachment</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label><strong>Priority Level</strong> <span class="req">*</span></label>
+                <select id="complaintPriority" required>
+                  <option value="">— Select Priority —</option>
+                  <option value="low">🟢 Low — Minor inconvenience</option>
+                  <option value="medium">🟡 Medium — Needs attention</option>
+                  <option value="high">🔴 High — Urgent / Safety risk</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label><strong>Complaint Title</strong> <span class="req">*</span></label>
+              <input type="text" id="complaintTitle" placeholder="Brief title describing the issue" maxlength="100" />
+              <div class="char-count"><span id="complaintTitleCount">0</span>/100</div>
+            </div>
+
+            <div class="field-group">
+              <label><strong>Detailed Description</strong> <span class="req">*</span></label>
+              <textarea id="complaintDesc" rows="5" placeholder="Describe the issue in detail — what happened, since when, how it affects residents..." maxlength="1000"></textarea>
+              <div class="char-count"><span id="complaintDescCount">0</span>/1000</div>
+            </div>
+
+            <div class="field-row-two">
+              <div class="field-group">
+                <label><strong>Location / Address</strong> <span class="req">*</span></label>
+                <input type="text" id="complaintLocation" placeholder="Street name, landmark, area" />
+              </div>
+              <div class="field-group">
+                <label><strong>Ward Number</strong></label>
+                <input type="text" id="complaintWard" value="Ward 12" readonly class="readonly-input" />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label><strong>Attach Photo / Document</strong> <span class="field-optional">(Optional)</span></label>
+              <div class="file-drop-zone" id="fileDropZone" onclick="document.getElementById('complaintFile').click()">
+                <div class="file-drop-icon">📎</div>
+                <div class="file-drop-text">Click to attach or drag &amp; drop</div>
+                <div class="file-drop-hint">JPG, PNG, PDF — Max 5 MB</div>
+                <input type="file" id="complaintFile" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="showFileName('complaintFile','complaintFileName')" />
+              </div>
+              <div class="file-name-display hidden" id="complaintFileName"></div>
+            </div>
+
+            <div class="field-group">
+              <label class="checkbox-label-dash">
+                <input type="checkbox" id="complaintAnon" />
+                Submit anonymously (your name will not be shown publicly)
+              </label>
+            </div>
+
+            <div class="error-msg-dash hidden" id="complaintError"></div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-outline" onclick="resetForm('complaintForm', 'complaintError')">Clear Form</button>
+              <button type="submit" class="btn-submit">Submit Complaint</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: GIVE SUGGESTION
+           ============================================================ -->
+      <div class="panel" id="panel-suggestion">
+
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Give a Suggestion</h1>
+            <p class="page-subtitle">Share your ideas to improve civic services in your ward</p>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-card-header">
+            <span class="form-card-icon">💡</span>
+            <div>
+              <div class="form-card-title">Suggestion Details</div>
+              <div class="form-card-sub">All fields marked * are required</div>
+            </div>
+          </div>
+
+          <form id="suggestionForm" novalidate onsubmit="submitSuggestion(event)">
+
+            <div class="field-row-two">
+              <div class="field-group">
+                <label><strong>Suggestion Category</strong> <span class="req">*</span></label>
+                <select id="suggestionCategory" required>
+                  <option value="">— Select Category —</option>
+                  <option value="infrastructure">Infrastructure Development</option>
+                  <option value="safety">Public Safety &amp; Security</option>
+                  <option value="environment">Environment &amp; Greenery</option>
+                  <option value="health">Health &amp; Sanitation</option>
+                  <option value="education">Education &amp; Youth</option>
+                  <option value="transport">Transport &amp; Connectivity</option>
+                  <option value="digital">Digital Services</option>
+                  <option value="governance">Governance &amp; Policy</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label><strong>Benefit Scope</strong> <span class="req">*</span></label>
+                <select id="suggestionScope" required>
+                  <option value="">— Select Scope —</option>
+                  <option value="street">My Street / Area</option>
+                  <option value="ward">Entire Ward</option>
+                  <option value="city">Entire City</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label><strong>Suggestion Title</strong> <span class="req">*</span></label>
+              <input type="text" id="suggestionTitle" placeholder="Short, clear title for your suggestion" maxlength="100" />
+              <div class="char-count"><span id="suggestionTitleCount">0</span>/100</div>
+            </div>
+
+            <div class="field-group">
+              <label><strong>Detailed Description</strong> <span class="req">*</span></label>
+              <textarea id="suggestionDesc" rows="5" placeholder="Explain your suggestion — what should be done, why it will help, how it can be implemented..." maxlength="1000"></textarea>
+              <div class="char-count"><span id="suggestionDescCount">0</span>/1000</div>
+            </div>
+
+            <div class="field-group">
+              <label><strong>Expected Benefit</strong> <span class="req">*</span></label>
+              <textarea id="suggestionBenefit" rows="3" placeholder="How will this suggestion benefit citizens? Who will it impact?" maxlength="500"></textarea>
+              <div class="char-count"><span id="suggestionBenefitCount">0</span>/500</div>
+            </div>
+
+            <div class="field-group">
+              <label><strong>Supporting Document</strong> <span class="field-optional">(Optional)</span></label>
+              <div class="file-drop-zone" onclick="document.getElementById('suggestionFile').click()">
+                <div class="file-drop-icon">📎</div>
+                <div class="file-drop-text">Click to attach or drag &amp; drop</div>
+                <div class="file-drop-hint">JPG, PNG, PDF — Max 5 MB</div>
+                <input type="file" id="suggestionFile" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="showFileName('suggestionFile','suggestionFileName')" />
+              </div>
+              <div class="file-name-display hidden" id="suggestionFileName"></div>
+            </div>
+
+            <div class="error-msg-dash hidden" id="suggestionError"></div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-outline" onclick="resetForm('suggestionForm', 'suggestionError')">Clear Form</button>
+              <button type="submit" class="btn-submit">Submit Suggestion</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: MY COMPLAINTS
+           ============================================================ -->
+      <div class="panel" id="panel-mycomplaints">
+
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">My Complaints</h1>
+            <p class="page-subtitle">Track the status of all your filed complaints</p>
+          </div>
+          <button class="btn-submit" style="width:auto;padding:10px 20px;" onclick="showPanel('complaint', document.querySelector('[onclick*=complaint]'))">+ New Complaint</button>
+        </div>
+
+        <div class="filter-bar">
+          <select class="filter-select" onchange="filterItems('complaint', this.value)">
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="inprogress">In Progress</option>
+            <option value="resolved">Resolved</option>
+          </select>
+          <input type="text" class="filter-search" placeholder="Search complaints..." oninput="searchItems('complaint', this.value)" />
+        </div>
+
+        <div class="items-list" id="complaintsList">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: MY SUGGESTIONS
+           ============================================================ -->
+      <div class="panel" id="panel-mysuggestions">
+
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">My Suggestions</h1>
+            <p class="page-subtitle">Track the status of all your submitted suggestions</p>
+          </div>
+          <button class="btn-submit" style="width:auto;padding:10px 20px;" onclick="showPanel('suggestion', document.querySelector('[onclick*=suggestion]'))">+ New Suggestion</button>
+        </div>
+
+        <div class="filter-bar">
+          <select class="filter-select" onchange="filterItems('suggestion', this.value)">
+            <option value="all">All Status</option>
+            <option value="review">Under Review</option>
+            <option value="accepted">Accepted</option>
+            <option value="implemented">Implemented</option>
+            <option value="rejected">Not Accepted</option>
+          </select>
+          <input type="text" class="filter-search" placeholder="Search suggestions..." oninput="searchItems('suggestion', this.value)" />
+        </div>
+
+        <div class="items-list" id="suggestionsList">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: MY PROFILE
+           ============================================================ -->
+      <div class="panel" id="panel-profile">
+
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">My Profile</h1>
+            <p class="page-subtitle">Your registered citizen information</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-avatar-section">
+            <div class="profile-avatar" id="profileAvatar">R</div>
+            <div class="profile-name" id="profileName">Rahul Sharma</div>
+            <div class="profile-role-badge">Citizen · Ward 12</div>
+          </div>
+          <div class="profile-details">
+            <div class="profile-row">
+              <span class="profile-key">Full Name</span>
+              <span class="profile-val" id="profileFullName">Rahul Kumar Sharma</span>
+            </div>
+            <div class="profile-row">
+              <span class="profile-key">Mobile</span>
+              <span class="profile-val">+91 98765 43210</span>
+            </div>
+            <div class="profile-row">
+              <span class="profile-key">Email</span>
+              <span class="profile-val">rahul.sharma@email.com</span>
+            </div>
+            <div class="profile-row">
+              <span class="profile-key">Ward</span>
+              <span class="profile-val">Ward 12</span>
+            </div>
+            <div class="profile-row">
+              <span class="profile-key">Residency Type</span>
+              <span class="profile-val">Resident</span>
+            </div>
+            <div class="profile-row">
+              <span class="profile-key">Registered On</span>
+              <span class="profile-val">15 January 2026</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===== SUCCESS TOAST ===== -->
+  <div class="toast hidden" id="toast">
+    <span class="toast-icon" id="toastIcon">✅</span>
+    <span id="toastMsg">Submitted successfully!</span>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
