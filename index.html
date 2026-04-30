@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Citizen Connect — Smart Governance Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="bg-overlay"></div>
+
+  <!-- Main Wrapper -->
+  <div class="page-wrapper">
+
+    <!-- ===== LOGIN CARD ===== -->
+    <div class="card" id="loginCard">
+      <div class="card-header">
+        <div class="header-logo-row">
+          <div class="header-emblem">🏛️</div>
+          <div class="header-text-block">
+            <span class="gov-badge">Government of India</span>
+            <h1 class="portal-title">Citizen Connect</h1>
+            <p class="portal-subtitle">Smart Governance Portal</p>
+          </div>
+        </div>
+        <div class="divider"></div>
+      </div>
+
+      <div class="card-body">
+        <form id="loginForm" novalidate>
+
+          <div class="form-section">
+            <div class="form-section-title">Access Credentials</div>
+
+            <div class="form-group">
+              <label for="loginRole"><strong>Login As</strong> <span class="req">*</span></label>
+              <select id="loginRole" required onchange="onLoginRoleChange()">
+                <option value="">— Select Role —</option>
+                <option value="citizen">Citizen</option>
+                <option value="admin">Admin</option>
+                <option value="politician">Politician</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="loginEmail"><strong>Email Address or Mobile Number</strong> <span class="req">*</span></label>
+              <input type="text" id="loginEmail" placeholder="Enter email or 10-digit mobile" required />
+            </div>
+
+            <div class="form-group">
+              <label for="loginPassword"><strong>Password</strong> <span class="req">*</span></label>
+              <div class="input-icon-wrap">
+                <input type="password" id="loginPassword" placeholder="Enter your password" required />
+                <span class="toggle-pw" onclick="togglePassword('loginPassword', this)">👁</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Admin notice — shown only when Admin role selected -->
+          <div class="admin-notice hidden" id="adminNotice">
+            🔒 Admin accounts are created by system authority. Self-registration is not available for this role.
+          </div>
+
+          <div class="form-row-between">
+            <label class="checkbox-label">
+              <input type="checkbox" id="rememberMe" />
+              Remember Me
+            </label>
+            <a href="#" class="link-text">Forgot Password?</a>
+          </div>
+
+          <div class="error-msg" id="loginError"></div>
+
+          <button type="submit" class="btn-primary">Login to Portal</button>
+
+          <!-- Hidden when Admin is selected -->
+          <p class="switch-text" id="registerLink">New user? <a href="#" class="link-text" onclick="showRegister()">Register here</a></p>        </form>
+      </div>
+    </div>
+
+    <!-- ===== REGISTER CARD ===== -->
+    <div class="card hidden" id="registerCard">
+      <div class="card-header">
+        <div class="header-logo-row">
+          <div class="header-emblem">🏛️</div>
+          <div class="header-text-block">
+            <span class="gov-badge">Government of India</span>
+            <h1 class="portal-title">Citizen Connect</h1>
+            <p class="portal-subtitle">New User Registration</p>
+          </div>
+        </div>
+        <div class="divider"></div>
+      </div>
+
+      <div class="card-body">
+
+        <!-- Role Banner — shown instead of dropdown once role is carried from login -->
+        <div class="role-banner hidden" id="roleBanner">
+          <div class="role-banner-left">
+            <span class="role-banner-icon" id="roleBannerIcon">👤</span>
+            <div>
+              <div class="role-banner-label">Registering as</div>
+              <div class="role-banner-name" id="roleBannerName">Citizen</div>
+            </div>
+          </div>
+          <a href="#" class="role-banner-change link-text" onclick="showLogin(); return false;">Change Role</a>
+        </div>
+
+        <!-- Role selector — shown only when arriving directly (no role pre-selected) -->
+        <div class="form-group hidden" id="regRoleGroup">
+          <label for="regRole">Register As <span class="req">*</span></label>
+          <select id="regRole" onchange="onRoleChange()">
+            <option value="">— Select Role —</option>
+            <option value="citizen">Citizen</option>
+            <option value="politician">Politician</option>
+          </select>
+        </div>
+
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+          <div class="step active" id="stepDot1">
+            <div class="step-circle" id="stepCircle1">1</div>
+            <div class="step-label" id="stepLabel1">Personal</div>
+          </div>
+          <div class="step-line" id="stepLine1"></div>
+          <div class="step inactive" id="stepDot2">
+            <div class="step-circle" id="stepCircle2">2</div>
+            <div class="step-label" id="stepLabel2">Details</div>
+          </div>
+          <div class="step-line" id="stepLine2"></div>
+          <div class="step inactive" id="stepDot3">
+            <div class="step-circle" id="stepCircle3">3</div>
+            <div class="step-label" id="stepLabel3">Security</div>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             STEP 1 — CITIZEN: Personal Details
+             ================================================================ -->
+        <div class="step-panel hidden" id="step1-citizen">
+          <h3 class="step-heading">Step 1 — Personal Details</h3>
+
+          <div class="form-section">
+            <div class="form-section-title">Identity Information</div>
+            <div class="form-row-two">
+              <div class="form-group">
+                <label for="c-firstName"><strong>First Name</strong> <span class="req">*</span></label>
+                <input type="text" id="c-firstName" placeholder="First name" />
+              </div>
+              <div class="form-group">
+                <label for="c-middleName"><strong>Middle / Father's Name</strong></label>
+                <input type="text" id="c-middleName" placeholder="Middle or father's name" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="c-lastName"><strong>Last Name</strong> <span class="req">*</span></label>
+              <input type="text" id="c-lastName" placeholder="Last name / surname" />
+            </div>
+            <div class="form-row-two">
+              <div class="form-group">
+                <label for="c-dob"><strong>Date of Birth</strong> <span class="req">*</span></label>
+                <input type="date" id="c-dob" />
+              </div>
+              <div class="form-group">
+                <label for="c-gender"><strong>Gender</strong> <span class="req">*</span></label>
+                <select id="c-gender">
+                  <option value="">— Select —</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                  <option value="prefer_not">Prefer not to say</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">Contact Details</div>
+            <div class="form-group">
+              <label for="c-mobile"><strong>Mobile Number</strong> <span class="req">*</span></label>
+              <input type="tel" id="c-mobile" placeholder="10-digit mobile number" maxlength="10" />
+            </div>
+            <div class="form-group">
+              <label for="c-email"><strong>Email Address</strong> <span class="req">*</span></label>
+              <input type="email" id="c-email" placeholder="Enter your email address" />
+            </div>
+          </div>
+
+          <div class="error-msg" id="step1Error-citizen"></div>
+          <div class="btn-row">
+            <button type="button" class="btn-primary" onclick="nextStep(1)">Next &rarr;</button>
+          </div>
+          <p class="switch-text">Already registered? <a href="#" class="link-text" onclick="showLogin()">Login here</a></p>
+        </div>
+
+        <!-- ================================================================
+             STEP 1 — POLITICIAN: Personal Details
+             ================================================================ -->
+        <div class="step-panel hidden" id="step1-politician">
+          <h3 class="step-heading">Step 1 — Personal Details</h3>
+
+          <div class="form-section">
+            <div class="form-section-title">Identity Information</div>
+            <div class="form-row-two">
+              <div class="form-group">
+                <label for="p-firstName"><strong>First Name</strong> <span class="req">*</span></label>
+                <input type="text" id="p-firstName" placeholder="First name" />
+              </div>
+              <div class="form-group">
+                <label for="p-middleName"><strong>Middle / Father's Name</strong></label>
+                <input type="text" id="p-middleName" placeholder="Middle or father's name" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="p-lastName"><strong>Last Name</strong> <span class="req">*</span></label>
+              <input type="text" id="p-lastName" placeholder="Last name / surname" />
+            </div>
+            <div class="form-row-two">
+              <div class="form-group">
+                <label for="p-age"><strong>Age</strong> <span class="req">*</span></label>
+                <input type="number" id="p-age" placeholder="Minimum 25 years" min="25" max="120" />
+              </div>
+              <div class="form-group">
+                <label for="p-mobile"><strong>Mobile Number</strong> <span class="req">*</span></label>
+                <input type="tel" id="p-mobile" placeholder="10-digit number" maxlength="10" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">Contact Details</div>
+            <div class="form-group">
+              <label for="p-email"><strong>Email Address</strong> <span class="req">*</span></label>
+              <input type="email" id="p-email" placeholder="Official email address" />
+            </div>
+            <div class="form-group">
+              <label for="p-address"><strong>Address</strong> <span class="req">*</span></label>
+              <input type="text" id="p-address" placeholder="Residential / official address" />
+            </div>
+          </div>
+
+          <div class="error-msg" id="step1Error-politician"></div>
+          <div class="btn-row">
+            <button type="button" class="btn-primary" onclick="nextStep(1)">Next &rarr;</button>
+          </div>
+          <p class="switch-text">Already registered? <a href="#" class="link-text" onclick="showLogin()">Login here</a></p>
+        </div>
+
+        <!-- ================================================================
+             STEP 2 — CITIZEN: Location Details
+             ================================================================ -->
+        <div class="step-panel hidden" id="step2-citizen">
+          <h3 class="step-heading">Step 2 — Location Details</h3>
+
+          <div class="form-section">
+            <div class="form-section-title">Residential Information</div>
+
+            <div class="form-group">
+              <label><strong>Are you from Ward No. 1?</strong> <span class="req">*</span></label>
+              <p class="field-hint" style="margin-bottom:10px;">First select your ward number, then confirm below.</p>
+              <div class="ward-question-row">
+                <select id="c-ward" onchange="updateWardQuestion()" style="flex:1;">
+                  <option value="">— Select Ward —</option>
+                  <!-- Populated by JS -->
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" id="wardConfirmGroup">
+              <label id="wardConfirmLabel"><strong>Are you from this ward?</strong> <span class="req">*</span></label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="wardConfirm" value="yes" onchange="onWardConfirmChange(this)" />
+                  Yes, I belong to this ward
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="wardConfirm" value="no" onchange="onWardConfirmChange(this)" />
+                  No, let me select a different ward
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label><strong>Residency Type</strong> <span class="req">*</span></label>
+              <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="residentType" value="resident" /> Resident</label>
+                <label class="radio-label"><input type="radio" name="residentType" value="working" /> Working Here</label>
+                <label class="radio-label"><input type="radio" name="residentType" value="business" /> Business Owner</label>
+                <label class="radio-label"><input type="radio" name="residentType" value="property_rent" /> Property Owner (Rent)</label>
+                <label class="radio-label" id="otherRadioLabel">
+                  <input type="radio" name="residentType" value="other" onchange="toggleOtherInput(this)" /> Other
+                </label>
+              </div>
+            </div>
+
+            <!-- "Other" text input — shown only when Other is selected -->
+            <div class="form-group hidden" id="otherResidentGroup">
+              <label for="c-otherResident"><strong>Please specify</strong> <span class="req">*</span></label>
+              <input type="text" id="c-otherResident" placeholder="Describe your residency type" />
+            </div>
+          </div>
+
+          <div class="error-msg" id="step2Error-citizen"></div>
+          <div class="btn-row two-btns">
+            <button type="button" class="btn-secondary" onclick="prevStep(2)">&larr; Back</button>
+            <button type="button" class="btn-primary" onclick="nextStep(2)">Next &rarr;</button>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             STEP 2 — POLITICIAN: Political Details
+             ================================================================ -->
+        <div class="step-panel hidden" id="step2-politician">
+          <h3 class="step-heading">Step 2 — Political Details</h3>
+
+          <div class="form-section">
+            <div class="form-section-title">Official Information</div>
+
+            <div class="form-group">
+              <label for="p-jurisdiction"><strong>Jurisdiction Type</strong> <span class="req">*</span></label>
+              <select id="p-jurisdiction">
+                <option value="">— Select —</option>
+                <option value="municipal">Municipal</option>
+                <option value="legislative">Legislative Assembly</option>
+                <option value="parliamentary">Parliamentary</option>
+              </select>
+            </div>
+
+            <div class="form-row-two">
+              <div class="form-group">
+                <label for="p-wardNumber"><strong>Ward Number</strong> <span class="req">*</span></label>
+                <input type="text" id="p-wardNumber" placeholder="Ward / constituency no." />
+              </div>
+              <div class="form-group">
+                <label for="p-wardName"><strong>Ward Name</strong> <span class="req">*</span></label>
+                <input type="text" id="p-wardName" placeholder="Ward / constituency name" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="p-position"><strong>Position</strong> <span class="req">*</span></label>
+              <select id="p-position">
+                <option value="">— Select —</option>
+                <option value="mla">MLA</option>
+                <option value="mp">MP</option>
+                <option value="corporator">Corporator</option>
+                <option value="mayor">Mayor</option>
+                <option value="sarpanch">Sarpanch</option>
+                <option value="councillor">Councillor</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="error-msg" id="step2Error-politician"></div>
+          <div class="btn-row two-btns">
+            <button type="button" class="btn-secondary" onclick="prevStep(2)">&larr; Back</button>
+            <button type="button" class="btn-primary" onclick="nextStep(2)">Next &rarr;</button>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             STEP 3 — CITIZEN: Authentication
+             ================================================================ -->
+        <div class="step-panel hidden" id="step3-citizen">
+          <h3 class="step-heading">Step 3 — Set Password</h3>
+
+          <div class="form-section">
+            <div class="form-section-title">Security Setup</div>
+            <div class="form-group">
+              <label for="c-password"><strong>Password</strong> <span class="req">*</span></label>
+              <div class="input-icon-wrap">
+                <input type="password" id="c-password" placeholder="Minimum 6 characters" />
+                <span class="toggle-pw" onclick="togglePassword('c-password', this)">👁</span>
+              </div>
+              <div class="password-strength" id="pwStrength"></div>
+            </div>
+            <div class="form-group">
+              <label for="c-confirmPassword"><strong>Confirm Password</strong> <span class="req">*</span></label>
+              <div class="input-icon-wrap">
+                <input type="password" id="c-confirmPassword" placeholder="Re-enter your password" />
+                <span class="toggle-pw" onclick="togglePassword('c-confirmPassword', this)">👁</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top:4px;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="c-acceptTerms" />
+              I accept the <a href="#" class="link-text">Terms &amp; Conditions</a> and <a href="#" class="link-text">Privacy Policy</a>
+            </label>
+          </div>
+
+          <div class="error-msg" id="step3Error-citizen"></div>
+          <div class="btn-row two-btns">
+            <button type="button" class="btn-secondary" onclick="prevStep(3)">&larr; Back</button>
+            <button type="button" class="btn-primary" onclick="submitRegistration()">Register</button>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             STEP 3 — POLITICIAN: Verification + Authentication
+             ================================================================ -->
+        <div class="step-panel hidden" id="step3-politician">
+          <h3 class="step-heading">Step 3 — Verification &amp; Password</h3>
+
+          <div class="form-section">
+            <div class="form-section-title">Security Setup</div>
+            <div class="form-group">
+              <label for="p-password"><strong>Password</strong> <span class="req">*</span></label>
+              <div class="input-icon-wrap">
+                <input type="password" id="p-password" placeholder="Minimum 6 characters" />
+                <span class="toggle-pw" onclick="togglePassword('p-password', this)">👁</span>
+              </div>
+              <div class="password-strength" id="pwStrengthP"></div>
+            </div>
+            <div class="form-group">
+              <label for="p-confirmPassword"><strong>Confirm Password</strong> <span class="req">*</span></label>
+              <div class="input-icon-wrap">
+                <input type="password" id="p-confirmPassword" placeholder="Re-enter your password" />
+                <span class="toggle-pw" onclick="togglePassword('p-confirmPassword', this)">👁</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">Identity Verification</div>
+            <div class="form-group">
+              <label for="p-idProof"><strong>Upload ID Proof</strong> <span class="req">*</span></label>
+              <input type="file" id="p-idProof" accept=".pdf,.jpg,.jpeg,.png" class="file-input" />
+              <p class="field-hint">Accepted formats: PDF, JPG, PNG. Max size: 5 MB.</p>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top:4px;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="p-acceptTerms" />
+              I accept the <a href="#" class="link-text">Terms &amp; Conditions</a> and <a href="#" class="link-text">Privacy Policy</a>
+            </label>
+          </div>
+
+          <div class="error-msg" id="step3Error-politician"></div>
+          <div class="btn-row two-btns">
+            <button type="button" class="btn-secondary" onclick="prevStep(3)">&larr; Back</button>
+            <button type="button" class="btn-primary" onclick="submitRegistration()">Register</button>
+          </div>
+        </div>
+
+      </div><!-- end card-body -->
+    </div>
+
+    <!-- ===== SUCCESS CARD ===== -->
+    <div class="card hidden" id="successCard">
+      <div class="card-header">
+        <div class="header-logo-row">
+          <div class="header-emblem">✔</div>
+          <div class="header-text-block">
+            <span class="gov-badge">Government of India</span>
+            <h1 class="portal-title">Citizen Connect</h1>
+            <p class="portal-subtitle">Registration Complete</p>
+          </div>
+        </div>
+        <div class="divider"></div>
+      </div>
+      <div class="success-content">
+        <div class="success-check">✔</div>
+        <h2 class="success-title">Registration Successful</h2>
+        <p class="success-sub">Your account has been created successfully.</p>
+        <p class="success-redirect">Redirecting to dashboard<span class="dots"></span></p>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      &copy; 2026 Citizen Connect &mdash; Smart Governance Portal &nbsp;|&nbsp; All Rights Reserved
+    </div>
+
+  </div><!-- end page-wrapper -->
+
+  <script src="app.js"></script>
+</body>
+</html>

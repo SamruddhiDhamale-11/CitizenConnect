@@ -1,0 +1,969 @@
+/* ============================================================
+   CITIZEN CONNECT — Premium Government Portal Stylesheet v2
+   Primary:   #C21807  (Cherry Red)
+   Secondary: #FDECEA  (Light Cherry)
+   Text:      #1F1F1F
+   Border:    #E0E0E0
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --red:        #C21807;
+  --red-dark:   #9B1405;
+  --red-deeper: #7A1004;
+  --red-light:  #FDECEA;
+  --red-glow:   rgba(194, 24, 7, 0.10);
+  --white:      #FFFFFF;
+  --text:       #1F1F1F;
+  --text-mid:   #4A4A4A;
+  --text-muted: #7A7A7A;
+  --border:     #E0E0E0;
+  --border-focus: #C21807;
+  --bg-section: #F9F9F9;
+  --bg-section-red: #FEF5F4;
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.09), 0 1px 4px rgba(0,0,0,0.05);
+  --radius-card: 12px;
+  --radius-input: 7px;
+  --radius-btn: 8px;
+  --radius-section: 8px;
+  --transition: 0.2s ease;
+}
+
+html {
+  font-size: 15px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  background-image: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?fm=jpg&q=100&w=1920&auto=format&fit=crop');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 0;
+}
+
+/* ================================================================
+   BACKGROUND (legacy overlay div - now unused but kept for HTML compatibility)
+   ================================================================ */
+.bg-overlay {
+  display: none;
+}
+
+/* ================================================================
+   PAGE WRAPPER
+   ================================================================ */
+.page-wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 52px 16px 40px;
+}
+
+/* ================================================================
+   CARD
+   ================================================================ */
+.card {
+  background: var(--white);
+  width: 700px;
+  max-width: 95%;
+  padding: 0;
+  border-radius: var(--radius-card);
+  border: 1px solid #eee;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  animation: fadeUpCard 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes fadeUpCard {
+  from { opacity: 0; transform: translateY(28px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ================================================================
+   CARD HEADER — Red accent bar + logo area
+   ================================================================ */
+.card-header {
+  background: var(--white);
+  border-bottom: 3px solid var(--red);
+  padding: 32px 40px 26px;
+  text-align: center;
+  position: relative;
+}
+
+.header-logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.header-emblem {
+  width: 48px;
+  height: 48px;
+  background: var(--red);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(194,24,7,0.25);
+}
+
+.header-text-block {
+  text-align: left;
+}
+
+.gov-badge {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.portal-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--red);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+.portal-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+/* Legacy divider — hidden now, kept for HTML compatibility */
+.divider { display: none; }
+
+/* ================================================================
+   CARD BODY (form content area)
+   ================================================================ */
+.card-body {
+  padding: 32px 40px 36px;
+}
+
+/* ================================================================
+   SECTION BLOCKS
+   ================================================================ */
+.form-section {
+  background: var(--bg-section);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-section);
+  padding: 22px 24px 18px;
+  margin-bottom: 20px;
+}
+
+.form-section-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #E8E8E8;
+}
+
+/* ================================================================
+   FORM GROUPS
+   ================================================================ */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-mid);
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+}
+
+.req {
+  color: var(--red);
+  margin-left: 1px;
+}
+
+/* ================================================================
+   INPUTS & SELECTS
+   ================================================================ */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-input);
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--white);
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  line-height: 1.5;
+}
+
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+input[type="tel"]:hover,
+input[type="date"]:hover,
+select:hover {
+  border-color: #bbb;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px var(--red-glow);
+  background: #fff;
+}
+
+input::placeholder {
+  color: #b0b0b0;
+  font-size: 0.87rem;
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23888' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
+/* ================================================================
+   TWO-COLUMN ROW
+   ================================================================ */
+.form-row-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ================================================================
+   REMEMBER ME / FORGOT ROW
+   ================================================================ */
+.form-row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ================================================================
+   CHECKBOX
+   ================================================================ */
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 0.84rem;
+  color: var(--text-mid);
+  cursor: pointer;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--red);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ================================================================
+   RADIO GROUP
+   ================================================================ */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 4px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-input);
+  overflow: hidden;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.87rem;
+  color: var(--text-mid);
+  cursor: pointer;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+
+.radio-label:last-child {
+  border-bottom: none;
+}
+
+.radio-label:hover {
+  background: var(--red-light);
+}
+
+.radio-label input[type="radio"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--red);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ================================================================
+   PASSWORD TOGGLE
+   ================================================================ */
+.input-icon-wrap {
+  position: relative;
+}
+
+.input-icon-wrap input {
+  padding-right: 46px;
+}
+
+.toggle-pw {
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  user-select: none;
+  line-height: 1;
+  transition: color var(--transition);
+}
+
+.toggle-pw:hover {
+  color: var(--red);
+}
+
+/* ================================================================
+   PASSWORD STRENGTH BAR
+   ================================================================ */
+.password-strength {
+  margin-top: 7px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  height: 16px;
+  letter-spacing: 0.02em;
+}
+
+/* ================================================================
+   BUTTONS
+   ================================================================ */
+.btn-primary {
+  width: 100%;
+  padding: 13px 20px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-family: inherit;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background var(--transition), box-shadow var(--transition), transform 0.12s ease;
+  box-shadow: 0 2px 8px rgba(194, 24, 7, 0.22);
+}
+
+.btn-primary:hover {
+  background: var(--red-dark);
+  box-shadow: 0 4px 16px rgba(194, 24, 7, 0.32);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  background: var(--red-deeper);
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(194, 24, 7, 0.18);
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 13px 20px;
+  background: var(--white);
+  color: var(--red);
+  border: 1.5px solid var(--red);
+  border-radius: var(--radius-btn);
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-family: inherit;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background var(--transition), box-shadow var(--transition), transform 0.12s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--red-light);
+  box-shadow: 0 2px 8px rgba(194, 24, 7, 0.10);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* ================================================================
+   BUTTON ROW
+   ================================================================ */
+.btn-row {
+  margin-top: 10px;
+}
+
+.btn-row.two-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ================================================================
+   LINKS
+   ================================================================ */
+.link-text {
+  color: var(--red);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.84rem;
+  transition: color var(--transition);
+}
+
+.link-text:hover {
+  color: var(--red-dark);
+  text-decoration: underline;
+}
+
+/* ================================================================
+   SWITCH TEXT
+   ================================================================ */
+.switch-text {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+/* ================================================================
+   ERROR MESSAGE
+   ================================================================ */
+.error-msg {
+  font-size: 0.81rem;
+  color: #b91c1c;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-left: 3px solid #C21807;
+  padding: 9px 13px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  display: none;
+  line-height: 1.5;
+}
+
+.error-msg.visible {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  animation: fadeUpCard 0.22s ease both;
+}
+
+.error-msg.visible::before {
+  content: '⚠';
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ================================================================
+   ROLE SELECTOR GROUP (register card, outside steps)
+   ================================================================ */
+#regRoleGroup {
+  background: var(--red-light);
+  border: 1px solid #F5C6C2;
+  border-radius: var(--radius-section);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+#regRoleGroup label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+/* ================================================================
+   STEP INDICATOR — Modern progress bar style
+   ================================================================ */
+.step-indicator {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 28px;
+  gap: 0;
+  padding: 0 4px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  position: relative;
+  z-index: 1;
+}
+
+.step-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 2px solid var(--border);
+  background: var(--white);
+  color: #b0b0b0;
+  transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.step.active .step-circle {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(194, 24, 7, 0.30);
+}
+
+.step.completed .step-circle {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+  font-size: 0;  /* hide number, show checkmark via pseudo */
+  box-shadow: 0 2px 8px rgba(194, 24, 7, 0.20);
+}
+
+.step.completed .step-circle::after {
+  content: '✓';
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.step-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #b0b0b0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.step.active .step-label {
+  color: var(--red);
+}
+
+.step.completed .step-label {
+  color: var(--red);
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  min-width: 64px;
+  margin-bottom: 30px;
+  transition: background 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.step-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.step-line.completed::after {
+  transform: scaleX(1);
+}
+
+/* ================================================================
+   STEP HEADING
+   ================================================================ */
+.step-heading {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.step-heading::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 16px;
+  background: var(--red);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ================================================================
+   STEP PANEL TRANSITION
+   ================================================================ */
+.step-panel {
+  animation: stepSlideIn 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes stepSlideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ================================================================
+   SUCCESS CARD
+   ================================================================ */
+#successCard {
+  text-align: center;
+}
+
+#successCard .card-header {
+  border-bottom-color: #16a34a;
+}
+
+#successCard .portal-title {
+  color: #16a34a;
+}
+
+#successCard .header-emblem {
+  background: #16a34a;
+  box-shadow: 0 2px 8px rgba(22,163,74,0.25);
+}
+
+.success-content {
+  padding: 36px 40px 40px;
+}
+
+.success-check {
+  width: 88px;
+  height: 88px;
+  background: #16a34a;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 28px;
+  box-shadow: 0 6px 24px rgba(22, 163, 74, 0.28);
+  animation: popIn 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.3); }
+  60%  { transform: scale(1.08); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.success-title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #15803d;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.success-sub {
+  font-size: 0.92rem;
+  color: var(--text-mid);
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.success-redirect {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.dots::after {
+  content: '';
+  animation: dotAnim 1.4s infinite;
+}
+
+@keyframes dotAnim {
+  0%   { content: ''; }
+  25%  { content: '.'; }
+  50%  { content: '..'; }
+  75%  { content: '...'; }
+  100% { content: ''; }
+}
+
+.progress-bar-wrap {
+  width: 100%;
+  height: 5px;
+  background: #dcfce7;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #16a34a;
+  width: 0%;
+  border-radius: 4px;
+  transition: width 4s linear;
+}
+
+/* ================================================================
+   FOOTER
+   ================================================================ */
+.page-footer {
+  margin-top: 28px;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.48);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 640px) {
+  .page-wrapper {
+    padding: 28px 12px 32px;
+  }
+
+  .card-header {
+    padding: 24px 24px 20px;
+  }
+
+  .card-body {
+    padding: 24px 24px 28px;
+  }
+
+  .success-content {
+    padding: 28px 24px 32px;
+  }
+
+  .portal-title {
+    font-size: 1.45rem;
+  }
+
+  .header-emblem {
+    width: 40px;
+    height: 40px;
+    font-size: 1.15rem;
+  }
+
+  .form-row-two {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-row.two-btns {
+    grid-template-columns: 1fr;
+  }
+
+  .step-line {
+    min-width: 28px;
+  }
+
+  .form-section {
+    padding: 18px 16px 14px;
+  }
+}
+
+/* ================================================================
+   ADMIN NOTICE
+   ================================================================ */
+.admin-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #FFF8E1;
+  border: 1px solid #FFE082;
+  border-left: 3px solid #F59E0B;
+  color: #7A5C00;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+/* ================================================================
+   FILE INPUT
+   ================================================================ */
+input[type="file"].file-input {
+  padding: 9px 12px;
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-input);
+  background: #FAFAFA;
+  cursor: pointer;
+  font-size: 0.86rem;
+  color: var(--text-mid);
+}
+
+input[type="file"].file-input:hover {
+  border-color: var(--red);
+  background: var(--red-light);
+}
+
+.field-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 5px;
+}
+
+/* ================================================================
+   NUMBER INPUT — remove spinners
+   ================================================================ */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] { -moz-appearance: textfield; }
+
+/* ================================================================
+   ROLE BANNER — shown at top of register card instead of dropdown
+   ================================================================ */
+.role-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--red-light);
+  border: 1.5px solid #F5C6C2;
+  border-left: 4px solid var(--red);
+  border-radius: var(--radius-section);
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+
+.role-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.role-banner-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--red);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.role-banner-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.role-banner-name {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--red);
+  letter-spacing: 0.01em;
+}
+
+.role-banner-change {
+  font-size: 0.78rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ================================================================
+   WARD QUESTION ROW
+   ================================================================ */
+.ward-question-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
